@@ -2,7 +2,14 @@
 
 namespace App\Exceptions;
 
+use App\Enums\ErrorEnum;
+use Exception;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Exceptions\ThrottleRequestsException;
+use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -35,6 +42,25 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        $this->renderable(function (NotFoundHttpException $e, $request) {
+            throw new ApiException(ErrorEnum::EXCEPTION_HTTP_NOT_FOUND());
+        });
+        $this->renderable(function (MethodNotAllowedHttpException $e, $request) {
+            throw new ApiException(ErrorEnum::EXCEPTION_HTTP_METHOD_NOT_ALLOWED());
+        });
+        $this->renderable(function (ThrottleRequestsException $e, $request) {
+            throw new ApiException(ErrorEnum::EXCEPTION_THROTTLE_REQUESTS());
+        });
+        $this->renderable(function (AuthenticationException $e, $request) {
+            throw new ApiException(ErrorEnum::EXCEPTION_AUTHENTICATION());
+        });
+        $this->renderable(function (ValidationException $e, $request) {
+            throw new ApiException(ErrorEnum::EXCEPTION_VALIDATION(), $e->validator->errors());
+        });
+        $this->renderable(function (Exception $e, $request) {
+            throw new ApiException(ErrorEnum::UNKNOWN_ERROR());
         });
     }
 }
