@@ -8,6 +8,7 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Illuminate\Http\Exceptions\ThrottleRequestsException;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Throwable;
@@ -55,6 +56,9 @@ class Handler extends ExceptionHandler
         });
         $this->renderable(function (AuthenticationException $e, $request) {
             throw new ApiException(ErrorEnum::EXCEPTION_AUTHENTICATION());
+        });
+        $this->renderable(function (AccessDeniedHttpException $e, $request) {
+            throw new ApiException(ErrorEnum::EXCEPTION_ACCESS_DENIED());
         });
         $this->renderable(function (ValidationException $e, $request) {
             throw new ApiException(ErrorEnum::EXCEPTION_VALIDATION(), $e->validator->errors());

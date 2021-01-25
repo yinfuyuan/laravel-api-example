@@ -13,6 +13,7 @@ use PhpEnum\Enum;
  * @method static self EXCEPTION_AUTHENTICATION
  * @method static self EXCEPTION_VALIDATION
  * @method static self EXCEPTION_THROTTLE_REQUESTS
+ * @method static self EXCEPTION_ACCESS_DENIED
  */
 class ErrorEnum extends Enum
 {
@@ -25,6 +26,7 @@ class ErrorEnum extends Enum
     private const EXCEPTION_AUTHENTICATION = [10003, '身份认证失败'];
     private const EXCEPTION_VALIDATION = [10004, '数据验证失败'];
     private const EXCEPTION_THROTTLE_REQUESTS = [10005, '请求过于频繁'];
+    private const EXCEPTION_ACCESS_DENIED = [10006, '没有接口权限'];
 
     private int $code;
     private string $msg;
