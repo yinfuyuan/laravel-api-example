@@ -25,5 +25,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Validator::extend('phone_number', 'App\Rules\PhoneNumber@passes');
+        Validator::extend('sms_code', 'App\Rules\SmsCode@passes');
     }
 }
