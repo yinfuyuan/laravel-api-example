@@ -20,3 +20,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::middleware('throttle:100,30')->post('getSmsCode', [AuthController::class, 'getSmsCode']);
+
+Route::middleware('throttle:100,30')->post('register', [AuthController::class, 'register']);
