@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 
 class AuthService implements \App\Contracts\AuthService
@@ -11,5 +12,10 @@ class AuthService implements \App\Contracts\AuthService
         $sms_code = (string) rand(100000,999999);
         Cache::put('sms_code_' . $phone_number, $sms_code, 300000);
         return $sms_code;
+    }
+
+    public function register(array $data)
+    {
+        return User::create($data);
     }
 }

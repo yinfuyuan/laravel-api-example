@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Contracts\AuthService;
 use App\Http\Requests\GetSmsCodeRequest;
+use App\Http\Requests\RegisterRequest;
 use App\Http\Resources\JsonResponse;
 
 class AuthController extends Controller
@@ -21,5 +22,11 @@ class AuthController extends Controller
         $phoneNumber = $request->input('phone_number');
         $smsCode = $this->authService->getSmsCode($phoneNumber);
         return new JsonResponse($smsCode);
+    }
+
+    public function register(RegisterRequest $request)
+    {
+        $user = $this->authService->register($request->validated());
+        return new JsonResponse($user);
     }
 }
